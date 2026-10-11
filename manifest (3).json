@@ -1,0 +1,13 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Amma'sTable",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Amma'sTable",
+  "start_url": "/",
+  "theme_color": "#8c4614",
+  "id": "./",
+  "description": "Home-cooked meal pre-order application"
+}
