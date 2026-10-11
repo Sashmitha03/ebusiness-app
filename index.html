@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Amma's Table – Home-cooked meals, pre-ordered</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F1F5EC;--card:#fff;--ink:#1d2a22;--mute:#5d6b62;--g:#1F5F3F;--y:#E8A317;--line:#d9e2d3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#121a15;--card:#1b261f;--ink:#eaf1ea;--mute:#9db0a2;--g:#5fb58a;--line:#2c3a31}}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.45 Mukta,system-ui,sans-serif;display:flex;justify-content:center}
+#app{width:100%;max-width:480px;height:100%;display:flex;flex-direction:column;position:relative}
+h1,h2,h3{font-family:'Baloo 2',system-ui,sans-serif;margin:0;line-height:1.1}
+main{flex:1;overflow-y:auto;padding:14px 16px 90px}
+nav{position:absolute;bottom:0;left:0;right:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;border:0;background:none;color:var(--mute);padding:10px 0;font:600 12px Mukta,sans-serif;position:relative}
+nav button.on{color:var(--g)}nav b{position:absolute;top:4px;margin-left:6px;background:var(--y);color:#000;border-radius:9px;font-size:11px;padding:0 6px}
+.ico{display:block;font-size:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0}
+.row{display:flex;align-items:center;gap:10px}.sp{justify-content:space-between}.grow{flex:1}
+.btn{border:0;background:var(--g);color:#fff;border-radius:10px;padding:11px 16px;font:600 16px Mukta,sans-serif;width:100%}
+.btn.s{width:auto;padding:6px 14px}.btn.alt{background:var(--y);color:#1d1b16}.btn.ghost{background:none;color:var(--g);border:1.5px solid var(--g)}
+.chip{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:20px;padding:5px 13px;font:600 14px Mukta;white-space:nowrap}.chip.on{background:var(--g);color:#fff;border-color:var(--g)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0}
+input,select,textarea{width:100%;padding:11px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:16px Mukta;margin:5px 0}
+.emo{font-size:34px;width:56px;height:56px;border-radius:12px;background:var(--bg);display:grid;place-items:center}
+.mute{color:var(--mute);font-size:14px}.price{font-weight:600;color:var(--g)}
+.banner{background:var(--g);color:#fff;border-radius:16px;padding:16px;margin:10px 0}.banner h2{font-size:24px}.banner .cd{color:var(--y);font-weight:600}
+.qty{display:flex;align-items:center;gap:10px}.qty button{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--g);background:none;color:var(--g);font-size:18px}
+.step{display:flex;gap:10px;align-items:center;padding:8px 0;color:var(--mute)}.step i{width:16px;height:16px;border-radius:50%;border:2px solid var(--line);display:block}.step.d{color:var(--ink)}.step.d i{background:var(--g);border-color:var(--g)}
+.splash{position:absolute;inset:0;background:var(--g);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:32px;z-index:9}
+.splash h1{font-size:46px}.splash p{opacity:.9}.splash input{color:#000;background:#fff}
+.sheet{position:absolute;inset:0;background:#0008;display:flex;align-items:flex-end;z-index:8}.sheet>div{background:var(--card);width:100%;border-radius:20px 20px 0 0;padding:18px;max-height:85%;overflow:auto}
+.toast{position:absolute;top:12px;left:16px;right:16px;background:#000d;color:#fff;padding:10px 14px;border-radius:10px;z-index:20;text-align:center}
+.tag{background:var(--y);color:#000;border-radius:6px;font-size:12px;padding:1px 7px;font-weight:600}
+.stars button{background:none;border:0;font-size:28px;color:var(--y)}
+table{width:100%;border-collapse:collapse}td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}
+</style></head><body><div id="app"></div>
+<script>
+const MENU=[
+{id:1,n:"Meen Kuzhambu Meals",c:"Lunch",p:140,e:"🍛",chef:"Lakshmi Amma, Adyar",left:12,d:"Tamarind fish curry, rice, poriyal, appalam. Cooked at 11am.",veg:0},
+{id:2,n:"Sambar Rice Combo",c:"Lunch",p:90,e:"🥘",chef:"Revathi Akka, T. Nagar",left:20,d:"Sambar rice, potato roast, curd, pickle.",veg:1},
+{id:3,n:"Curd Rice & Pickle",c:"Lunch",p:60,e:"🍚",chef:"Revathi Akka, T. Nagar",left:25,d:"Cool tempered curd rice with mango pickle.",veg:1},
+{id:4,n:"Idli (4) + Chutneys",c:"Breakfast",p:50,e:"🫓",chef:"Kamala Paati, Mylapore",left:18,d:"Soft idlis, coconut and tomato chutney, sambar.",veg:1},
+{id:5,n:"Pongal & Vada",c:"Breakfast",p:70,e:"🥣",chef:"Kamala Paati, Mylapore",left:10,d:"Ghee pongal with medhu vada.",veg:1},
+{id:6,n:"Chicken Chettinad Dinner",c:"Dinner",p:170,e:"🍗",chef:"Meena Akka, Velachery",left:8,d:"Chettinad chicken, 2 parottas, raita.",veg:0},
+{id:7,n:"Chapati & Kurma",c:"Dinner",p:80,e:"🌯",chef:"Meena Akka, Velachery",left:15,d:"3 chapatis with veg kurma.",veg:1},
+{id:8,n:"Adhirasam (4)",c:"Sweets",p:80,e:"🍩",chef:"Kamala Paati, Mylapore",left:14,d:"Traditional jaggery sweet, made fresh.",veg:1},
+{id:9,n:"Payasam Cup",c:"Sweets",p:45,e:"🍮",chef:"Lakshmi Amma, Adyar",left:20,d:"Semiya payasam with cashews.",veg:1}];
+const COUPONS={FIRST20:["20% off first order",o=>Math.round(o*.2)],AMMA50:["₹50 off above ₹300",o=>o>=300?50:0]};
+const STEPS=["Order placed","Chef is cooking","Packed","Out for delivery","Delivered"];
+const $=s=>document.querySelector(s);
+let S={user:null,cart:{},orders:[],ratings:[],coupon:null,pts:0};
+try{const x=localStorage.getItem("at1");if(x)S=Object.assign(S,JSON.parse(x))}catch(e){}
+const save=()=>{try{localStorage.setItem("at1",JSON.stringify(S))}catch(e){}};
+let tab="home",cat="All",q="",veg=false,sheet=null,msg="",pay="UPI",slot="1:00 PM",cur=null;
+const inr=n=>"₹"+n;
+const cnt=()=>Object.values(S.cart).reduce((a,b)=>a+b,0);
+const sub=()=>Object.entries(S.cart).reduce((t,[id,k])=>t+MENU.find(m=>m.id==id).p*k,0);
+const disc=()=>S.coupon?COUPONS[S.coupon][1](sub()):0;
+const fee=()=>sub()>=250||!sub()?0:30;
+const total=()=>sub()-disc()+fee();
+function toast(t){msg=t;draw();setTimeout(()=>{msg="";draw()},1800)}
+function add(id,d){const k=(S.cart[id]||0)+d;if(k<=0)delete S.cart[id];else if(k>MENU.find(m=>m.id==id).left){return toast("Only "+MENU.find(m=>m.id==id).left+" portions left today")}else S.cart[id]=k;save();draw()}
+function cutoff(){const n=new Date(),t=new Date();t.setHours(10,30,0,0);if(n>t)t.setDate(t.getDate()+1);const m=Math.floor((t-n)/60000);return Math.floor(m/60)+"h "+m%60+"m"}
+function menuItem(m){const k=S.cart[m.id]||0;return `<div class="card row"><div class="emo" onclick="sheet=${m.id};draw()">${m.e}</div><div class="grow" onclick="sheet=${m.id};draw()"><b>${m.n}</b> ${m.veg?'🟢':'🔴'}<div class="mute">${m.chef}</div><span class="price">${inr(m.p)}</span> <span class="mute">· ${m.left} left</span></div>${k?`<div class="qty"><button onclick="add(${m.id},-1)" aria-label="Remove one">−</button><b>${k}</b><button onclick="add(${m.id},1)" aria-label="Add one">+</button></div>`:`<button class="btn s" onclick="add(${m.id},1)">Add</button>`}</div>`}
+function home(){
+ let L=MENU.filter(m=>(cat=="All"||m.c==cat)&&(!veg||m.veg)&&(m.n+m.chef).toLowerCase().includes(q.toLowerCase()));
+ return `<div class="row sp"><div><div class="mute">Hello, ${S.user.name}</div><h2>What's cooking today?</h2></div><span class="tag">${S.pts} pts</span></div>
+ <div class="banner"><h2>Order by 10:30 am for lunch</h2><div class="cd">Cut-off in ${cutoff()}</div><div style="margin-top:6px">Use code <b>FIRST20</b> for 20% off your first order</div></div>
+ <input placeholder="Search dishes or chefs" value="${q}" oninput="q=this.value;draw(1)" id="sq">
+ <div class="chips">${["All","Breakfast","Lunch","Dinner","Sweets"].map(c=>`<button class="chip ${cat==c?'on':''}" onclick="cat='${c}';draw()">${c}</button>`).join("")}<button class="chip ${veg?'on':''}" onclick="veg=!veg;draw()">Veg only</button></div>
+ ${L.map(menuItem).join("")||'<p class="mute">No dishes match. Try a different search or category.</p>'}`}
+function cart(){
+ if(!cnt())return `<h2>Your cart</h2><div class="card">Your cart is empty. Add a dish from Home.</div><button class="btn" onclick="tab='home';draw()">Browse dishes</button>`;
+ return `<h2>Your cart</h2>${Object.keys(S.cart).map(id=>menuItem(MENU.find(m=>m.id==id))).join("")}
+ <div class="card"><div class="row"><input id="cp" placeholder="Coupon code" value="${S.coupon||''}"><button class="btn s" onclick="applyC()">Apply</button></div>${S.coupon?`<div class="mute">${COUPONS[S.coupon][0]} applied</div>`:'<div class="mute">Try FIRST20 or AMMA50</div>'}
+ <table><tr><td>Subtotal</td><td>${inr(sub())}</td></tr><tr><td>Discount</td><td>−${inr(disc())}</td></tr><tr><td>Delivery (free from ₹250)</td><td>${inr(fee())}</td></tr><tr><th>Total</th><th>${inr(total())}</th></tr></table></div>
+ <button class="btn" onclick="tab='checkout';draw()">Go to checkout</button>`}
+function applyC(){const c=$("#cp").value.trim().toUpperCase();if(!COUPONS[c])return toast("Invalid code");if(c=="FIRST20"&&S.orders.length)return toast("FIRST20 is for first orders only");S.coupon=c;save();draw()}
+function checkout(){
+ return `<h2>Checkout</h2><div class="card"><b>Delivery details</b><input id="ad" placeholder="Delivery address" value="${S.user.addr||''}"><select id="sl" onchange="slot=this.value">${["12:30 PM","1:00 PM","1:30 PM","7:30 PM","8:00 PM"].map(s=>`<option ${s==slot?'selected':''}>${s}</option>`).join("")}</select></div>
+ <div class="card"><b>Payment</b> <span class="tag">DEMO – no real money</span>${["UPI","Card","Cash on Delivery"].map(p=>`<label class="row" style="padding:8px 0"><input type="radio" style="width:auto" name="p" ${pay==p?'checked':''} onchange="S.user.addr=$('#ad').value;pay='${p}';draw()">${p}</label>`).join("")}
+ ${pay=="UPI"?'<input id="upi" placeholder="UPI ID e.g. name@upi (demo)">':''}${pay=="Card"?'<div class="mute">Card details are never collected in this demo.</div>':''}</div>
+ <div class="card mute">Refund policy: cancel before the chef starts cooking for a full refund. Your phone and address are used only for delivery (DPDP Act 2023 consent given at sign-up).</div>
+ <button class="btn alt" onclick="place()">Place order · ${inr(total())}</button>`}
+function place(){const a=$("#ad").value.trim();if(a.length<6)return toast("Enter a full delivery address");
+ S.user.addr=a;const o={id:"AT"+(1000+S.orders.length+1),items:Object.entries(S.cart).map(([i,k])=>({id:+i,k})),total:total(),pay,slot,addr:a,st:0,t:new Date().toLocaleString("en-IN"),disc:disc()};
+ S.orders.unshift(o);S.pts+=Math.floor(o.total/10);S.cart={};S.coupon=null;cur=o.id;save();tab="track";draw()}
+function track(){const o=S.orders.find(x=>x.id==cur)||S.orders[0];if(!o)return `<h2>Track order</h2><div class="card">No orders yet.</div>`;
+ return `<h2>Order ${o.id}</h2><div class="card"><div class="mute">${o.t} · ${o.pay} (demo) · Slot ${o.slot}</div>${o.items.map(i=>`<div>${MENU.find(m=>m.id==i.id).n} × ${i.k}</div>`).join("")}<b>Total ${inr(o.total)}</b></div>
+ <div class="card"><b>Status</b>${STEPS.map((s,i)=>`<div class="step ${i<=o.st?'d':''}"><i></i>${s}</div>`).join("")}<div class="mute">Demo: status moves forward automatically every 10 seconds.</div></div>
+ ${o.st==4&&!o.rated?`<div class="card"><b>Rate this meal</b><div class="stars">${[1,2,3,4,5].map(n=>`<button onclick="rate('${o.id}',${n})" aria-label="${n} stars">★</button>`).join("")}</div></div>`:o.rated?`<div class="card">You rated this order ${o.rated}★. Thank you!</div>`:""}
+ <a class="btn ghost" style="display:block;text-align:center;text-decoration:none" href="https://wa.me/910000000000?text=Order%20${o.id}" target="_blank" rel="noopener">Chat with support on WhatsApp</a>`}
+function rate(id,n){const o=S.orders.find(x=>x.id==id);o.rated=n;S.ratings.push(n);S.pts+=5;save();toast("Thanks! +5 points");}
+function orders(){return `<h2>My orders & profile</h2><div class="card"><b>${S.user.name}</b><div class="mute">+91 ${S.user.phone}</div><div class="price">${S.pts} loyalty points</div></div>
+ ${S.orders.map(o=>`<div class="card"><div class="row sp"><b>${o.id}</b><span>${inr(o.total)}</span></div><div class="mute">${o.t} · ${STEPS[o.st]}</div><div class="row" style="margin-top:8px"><button class="btn s ghost" onclick="cur='${o.id}';tab='track';draw()">Track</button><button class="btn s" onclick="reorder('${o.id}')">Reorder</button></div></div>`).join("")||'<div class="card">No orders yet.</div>'}
+ <button class="btn ghost" onclick="S.user=null;save();draw()">Sign out</button>`}
+function reorder(id){S.cart={};S.orders.find(o=>o.id==id).items.forEach(i=>S.cart[i.id]=i.k);save();tab="cart";draw()}
+function admin(){const rev=S.orders.reduce((a,o)=>a+o.total,0),avg=S.ratings.length?(S.ratings.reduce((a,b)=>a+b,0)/S.ratings.length).toFixed(1):"–";
+ return `<h2>Chef dashboard</h2><div class="mute">Demo view of this device's orders</div><div class="card"><table><tr><td>Orders</td><td>${S.orders.length}</td></tr><tr><td>Sales</td><td>${inr(rev)}</td></tr><tr><td>Avg rating</td><td>${avg}</td></tr></table></div>
+ ${S.orders.map(o=>`<div class="card row sp"><div><b>${o.id}</b><div class="mute">${STEPS[o.st]}</div></div>${o.st<4?`<button class="btn s" onclick="adv('${o.id}')">Next step</button>`:'<span class="tag">Done</span>'}</div>`).join("")}`}
+function adv(id){const o=S.orders.find(x=>x.id==id);if(o.st<4)o.st++;save();draw()}
+function login(){return `<div class="splash"><div style="font-size:56px">🍲</div><h1>Amma's Table</h1><p>Home-cooked meals from trusted neighbourhood chefs. Order before the cut-off, eat fresh.</p>
+ <input id="nm" placeholder="Your name"><input id="ph" inputmode="numeric" maxlength="10" placeholder="10-digit mobile number">
+ <label class="mute" style="color:#fff"><input type="checkbox" id="cs" style="width:auto"> I agree to my name and phone being used only for orders (DPDP Act 2023).</label>
+ <button class="btn alt" style="margin-top:12px" onclick="signup()">Start ordering</button><p style="font-size:13px">Student demo app. Payments are simulated.</p></div>`}
+function signup(){const n=$("#nm").value.trim(),p=$("#ph").value.trim();if(!n)return toast("Enter your name");if(!/^[6-9]\d{9}$/.test(p))return toast("Enter a valid 10-digit Indian mobile number");if(!$("#cs").checked)return toast("Please accept the consent to continue");S.user={name:n,phone:p};save();draw()}
+function draw(keep){const a=$("#app");if(!S.user){a.innerHTML=login()+(msg?`<div class="toast">${msg}</div>`:"");return}
+ const v={home,cart,checkout,track,orders,admin}[tab]();
+ const T=[["home","🏠","Home"],["cart","🛒","Cart"],["track","📍","Track"],["orders","👤","Orders"],["admin","📊","Chef"]];
+ a.innerHTML=`<main>${v}</main><nav>${T.map(t=>`<button class="${tab==t[0]||(tab=='checkout'&&t[0]=='cart')?'on':''}" onclick="tab='${t[0]}';draw()"><span class="ico">${t[1]}</span>${t[2]}${t[0]=='cart'&&cnt()?`<b>${cnt()}</b>`:''}</button>`).join("")}</nav>`
+ +(sheet?(m=>`<div class="sheet" onclick="sheet=null;draw()"><div onclick="event.stopPropagation()"><div class="emo" style="font-size:60px;width:100px;height:100px">${m.e}</div><h2>${m.n}</h2><div class="mute">${m.chef} · ${m.veg?'Vegetarian':'Non-vegetarian'}</div><p>${m.d}</p><p class="price">${inr(m.p)} · ${m.left} portions left today</p><button class="btn" onclick="add(${m.id},1);sheet=null;draw()">Add to cart</button></div></div>`)(MENU.find(x=>x.id==sheet)):"")
+ +(msg?`<div class="toast">${msg}</div>`:"");
+ if(keep){const e=$("#sq");e.focus();e.setSelectionRange(q.length,q.length)}}
+setInterval(()=>{let ch=0;S.orders.forEach(o=>{if(o.st<4&&Date.now()%1>=0&&(o._t=(o._t||0)+1)>=10){o.st++;o._t=0;ch=1}});if(ch){save();if(["track","orders","admin"].includes(tab)&&!sheet)draw()}},1000);
+draw();
+</script></body></html>
